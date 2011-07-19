@@ -114,7 +114,11 @@
                         </div>
                     </div>
 
-                    <xsl:if test="count(i:validationResults/i:validationResult[@result='none'])>0">
+                  <p style="text-align:center">
+                    <a href="/">Do Another</a>
+                  </p>
+
+                  <xsl:if test="count(i:validationResults/i:validationResult[@result='none'])>0">
                         <div class="warning subtitle bold">
                             Due to major errors, some validation was not performed.  Please correct the errors and validate again.
                         </div>

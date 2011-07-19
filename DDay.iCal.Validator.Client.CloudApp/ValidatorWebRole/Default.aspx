@@ -62,6 +62,11 @@
         <div id="tab-validation" class="small">
             <table>
                 <tr>
+                <td colspan="2">
+                <p id="progress">&nbsp;</p>
+                </td>
+                </tr>
+                <tr>
                     <td align="right" class="vtop bold">
                         <span class="u">U</span>RL:
                     </td>
@@ -114,4 +119,5 @@
             </td>
         </tr>
     </table>
+
 </asp:Content>

@@ -9,6 +9,12 @@ namespace DDay.iCal.Validator
     {
         #region Constructors
 
+		public Validation(IResourceManager mgr, ILogger logger)
+		{
+			ResourceManager = mgr;
+			Logger = logger;
+		}
+
         public Validation(IResourceManager mgr)
         {
             ResourceManager = mgr;
@@ -77,6 +83,7 @@ namespace DDay.iCal.Validator
         #region IValidator Members
 
         public IResourceManager ResourceManager { get; protected set; }
+		public ILogger Logger { get; protected set; }
         public abstract IValidationResultCollection Validate();
 
         #endregion

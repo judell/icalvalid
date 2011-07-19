@@ -15,6 +15,7 @@
     <script type="text/javascript" src="js/jquery.dimensions.min.js"></script>
     <script type="text/javascript" src="js/jquery.MultiFile.pack.js"></script>
     <script type="text/javascript" src="js/jquery.mailto.js"></script>
+    <script type="text/javascript" src="js/jquery-timers-1.2.js"></script>
     <script type="text/javascript">
         // Create the tooltips on document load
         $(document).ready(function()
@@ -85,6 +86,32 @@
             else
                 obj.hide();
         }
+
+    function SetProgress(progress, id) {
+      var progress_bar = Array(progress+1).join(".")
+      $('#progress').html(progress_bar);
+
+      var check_completion_url = "/?check_completion=" + id;
+      var redirect_url = "/?cached_id=" + id;
+
+      var success = false;
+
+      var completion_result = $.ajax({
+        url: check_completion_url,
+        async: false
+        });
+
+        if ( completion_result.responseText == "YES" )
+            location.href = redirect_url;
+
+        }
+
+    function RunProgress(id)  {
+        $(document).everyTime(2000, "progress", function(i)  {
+            SetProgress(i, id);
+            }, 0);
+        }
+
     </script>
 
 </head>

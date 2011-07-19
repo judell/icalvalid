@@ -1,0 +1,98 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="ValidatorWebRole.Main" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns:i="http://icalvalid.wikidot.com/validation">
+<head>
+    <title><asp:ContentPlaceHolder ID="Title" runat="server" /></title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-16">
+    <link rel="stylesheet" type="text/css" href="results.css">
+    <link type="text/css" href="css/smoothness/jquery-ui-1.7.2.custom.css" rel="stylesheet">
+
+    <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.7.2.custom.min.js"></script>
+    <script type="text/javascript" src="js/jquery.qtip-1.0.0-rc3.min.js"></script>
+    <script type="text/javascript" src="js/jquery.dimensions.min.js"></script>
+    <script type="text/javascript" src="js/jquery.MultiFile.pack.js"></script>
+    <script type="text/javascript" src="js/jquery.mailto.js"></script>
+    <script type="text/javascript">
+        // Create the tooltips on document load
+        $(document).ready(function()
+        {
+            $('a[href][title]').not('a[href][title].right').qtip({
+                content: {
+                    text: false // Use each elements title attribute
+                },
+                style:
+                {
+                    width: 350,
+                    name: 'light', // inherit from 'light'
+                },
+                position:
+                {
+                    corner:
+                    {
+                        target:'bottomLeft',
+                        tooltip:'topLeft'
+                    }
+                },
+                show:
+                {
+                    delay: 300
+                }
+            });
+            
+            $('a[href][title].right').qtip({
+                content: {
+                    text: false // Use each elements title attribute
+                },
+                style:
+                {
+                    width: 350,
+                    name: 'light', // inherit from 'light'
+                },
+                position:
+                {
+                    corner:
+                    {
+                        target:'bottomRight',
+                        tooltip:'topRight'
+                    }
+                },
+                show:
+                {
+                    delay: 300
+                }
+            });
+                        
+            $('#tabs').tabs();
+            
+            // Hide items that display differently when javascript is enabled.
+            $('.noscript').css('display', 'none');
+            
+            // Show items that aren't displayed unless javascript is enabled.
+            $('.javascript').css('display', 'block');
+            
+            // Convert obfuscated e-mails to mailto:
+            $('.email').mailto();
+        });
+        
+        function toggle(obj)
+        {
+            var elm = obj[0];
+            if (elm.style.display == 'none')
+                obj.show();
+            else
+                obj.hide();
+        }
+    </script>
+
+</head>
+<body>
+    <form id="form" runat="server">
+    <div class="results font">
+        <asp:ContentPlaceHolder ID="Content" runat="server" />
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CFC7E23A-D49B-42F5-8AC2-12D6C86D3914}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DDay.iCal.Validator</RootNamespace>
+    <AssemblyName>DDay.iCal.Validator</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkSubset>
+    </TargetFrameworkSubset>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="antlr.runtime, Version=2.7.6.2, Culture=neutral, PublicKeyToken=1790ba318ebc5d56, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\antlr.runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="DDay.iCal, Version=0.80.0.0, Culture=neutral, PublicKeyToken=1790ba318ebc5d56, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DDay.iCal.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Debug.cs" />
+    <Compile Include="Exceptions\ValidationRuleLoadException.cs" />
+    <Compile Include="Interfaces\IResourceManager.cs" />
+    <Compile Include="Interfaces\IValidationResult.cs" />
+    <Compile Include="Interfaces\IValidationResultCollection.cs" />
+    <None Include="Properties\AssemblyInfo.cs.template" />
+    <Compile Include="RFC5545\Components\ComponentValidator.cs" />
+    <Compile Include="RFC5545\Components\VCALENDAR\CalScaleValidator.cs" />
+    <Compile Include="RFC5545\Components\VCALENDAR\MethodValidator.cs" />
+    <Compile Include="RFC5545\Components\VCALENDAR\ProdIDValidator.cs" />
+    <Compile Include="RFC5545\Components\VCALENDAR\VersionValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventAttachPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventAttendeePropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventCategoriesPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventClassPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventCommentPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventContactPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventCreatedPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventDescriptionPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventDTEndDurationConflictValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventDTEndPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventDTStampPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventDTStartPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventDurationPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventExDatePropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventExRulePropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventGeoPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventLastModPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventLocationPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventOrganizerPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventPriorityPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventRDatePropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventRecurIDPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventRelatedPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventResourcesPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventRRulePropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventRStatusPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventSeqPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventStatusPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventSummaryPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventTranspPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventUidPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventUrlPropertyValidator.cs" />
+    <Compile Include="RFC5545\Components\VEVENT\EventXPropertyValidator.cs" />
+    <Compile Include="RFC5545\DataTypes\DateTimeValuesValidator.cs" />
+    <Compile Include="RFC5545\DataTypes\InlineBinaryContentValidator.cs" />
+    <Compile Include="RFC5545\Parsing\CRLFPairsValidator.cs" />
+    <Compile Include="RFC5545\Parsing\EmptyLineValidator.cs" />
+    <Compile Include="RFC5545\Parsing\LineFoldingValidator.cs" />
+    <Compile Include="RFC5545\Parsing\UnknownValueTypeParameterValidator.cs" />
+    <Compile Include="Serialization\TextValidationSerializer.cs" />
+    <Compile Include="Serialization\XmlValidationSerializer.cs" />
+    <Compile Include="Test.cs" />
+    <Compile Include="TestCompletedEventArgs.cs" />
+    <Compile Include="TestError.cs" />
+    <Compile Include="TestProgressEventArgs.cs" />
+    <Compile Include="TestResult.cs" />
+    <Compile Include="Interfaces\ITest.cs" />
+    <Compile Include="Interfaces\ITestError.cs" />
+    <Compile Include="Interfaces\ITestProvider.cs" />
+    <Compile Include="Interfaces\ITestable.cs" />
+    <Compile Include="Interfaces\ITestResult.cs" />
+    <Compile Include="Interfaces\IValidationSerializer.cs" />
+    <Compile Include="Interfaces\IValidationRule.cs" />
+    <Compile Include="Interfaces\IValidationRuleset.cs" />
+    <Compile Include="Interfaces\IValidationRulesetProvider.cs" />
+    <Compile Include="RulesetValidator.cs" />
+    <Compile Include="Interfaces\IValidator.cs" />
+    <Compile Include="Interfaces\IValidationResultInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceManager.cs" />
+    <Compile Include="Utils\BoolUtil.cs" />
+    <Compile Include="ValidationError.cs" />
+    <Compile Include="ValidationErrorWithLookup.cs" />
+    <Compile Include="ValidationResult.cs" />
+    <Compile Include="ValidationResultCollection.cs" />
+    <Compile Include="ValidationRule.cs" />
+    <Compile Include="ValidationRuleset.cs" />
+    <Compile Include="Validation\EventValidation.cs" />
+    <Compile Include="Validation\CalendarObjectValidation.cs" />
+    <Compile Include="Validation\Properties\DTStart\RecurringComponentDTStartRequiredValidation.cs" />
+    <Compile Include="Validation\Properties\iCalDateTimePropertyValidation.cs" />
+    <Compile Include="Validation\Properties\PropertyCountValidation.cs" />
+    <Compile Include="Validation\Properties\PropertyValidation.cs" />
+    <Compile Include="Validation\Properties\PropertyValuesValidation.cs" />
+    <Compile Include="Validation\Properties\StringPropertyValidation.cs" />
+    <Compile Include="Validation\Properties\UriPropertyValidation.cs" />
+    <Compile Include="Validation\ScoreCalculator.cs" />
+    <Compile Include="Validation\Types\EncodableDataTypeValidation.cs" />
+    <Compile Include="Validation\Types\StringValidation.cs" />
+    <Compile Include="Validation\Validation.cs" />
+    <Compile Include="ValidatorActivator.cs" />
+    <Compile Include="Xml\IXmlDocumentProvider.cs" />
+    <Compile Include="Xml\DirectoryXmlDocumentProvider.cs" />
+    <Compile Include="Xml\XmlCalendarTest.cs" />
+    <Compile Include="Xml\ZipXmlDocumentProvider.cs" />
+    <Compile Include="Xml\XmlValidationRule.cs" />
+    <Compile Include="Xml\XmlValidationRuleset.cs" />
+    <Compile Include="Xml\XmlValidationRulesetLoader.cs" />
+    <Compile Include="Zip\ZipExtractor.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+    <PreBuildEvent>$(SolutionDir)subwcrev.exe $(ProjectDir). $(ProjectDir)Properties\AssemblyInfo.cs.template $(ProjectDir)Properties\AssemblyInfo.cs</PreBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -9,7 +9,7 @@
         doctype-public="-//W3C//DTD HTML 4.01//EN"
         doctype-system="http://www.w3.org/TR/html4/strict.dtd"/>
 
-    <xsl:key name="errorKey" match="//i:info" use="@name"/>    
+    <xsl:key name="errorKey" match="//i:info" use="@name"/>
 
     <xsl:template match="/i:results">
         <html>
@@ -28,68 +28,68 @@
                     // Create the tooltips on document load
                     $(document).ready(function()
                     {
-                        $('a[href][title]').not('a[href][title].right, a[href][title].titleright').qtip({
-                            content: {
-                                text: false // Use each elements title attribute
-                            },
-                            style:
-                            {                                
-                                name: 'light', // inherit from 'light'
-                            },
-                            width: { max: 350 },
-                            position:
-                            {
-                                corner:
-                                {
-                                    target:'bottomLeft',
-                                    tooltip:'topLeft'
-                                }
-                            },
-                            show:
-                            {
-                                delay: 300
-                            }
-                        });
-                        
-                        $('a[href][title].right, a[href][title].titleright').qtip({
-                            content: {
-                                text: false // Use each elements title attribute
-                            },
-                            style:
-                            {                                
-                                name: 'light', // inherit from 'light'
-                            },
-                            width: { max: 350 },
-                            position:
-                            {
-                                corner:
-                                {
-                                    target:'bottomRight',
-                                    tooltip:'topRight'
-                                }
-                            },
-                            show:
-                            {
-                                delay: 300
-                            }
-                        });
-
-                        $('#tabs').tabs();
-                        
-                        // Hide items that display differently when javascript is enabled.
-                        $('.noscript').css('display', 'none');
-                        
-                        // Show items that aren't displayed unless javascript is enabled.
-                        $('.javascript').css('display', 'block');
+                    $('a[href][title]').not('a[href][title].right, a[href][title].titleright').qtip({
+                    content: {
+                    text: false // Use each elements title attribute
+                    },
+                    style:
+                    {
+                    name: 'light', // inherit from 'light'
+                    },
+                    width: { max: 350 },
+                    position:
+                    {
+                    corner:
+                    {
+                    target:'bottomLeft',
+                    tooltip:'topLeft'
+                    }
+                    },
+                    show:
+                    {
+                    delay: 300
+                    }
                     });
-                    
+
+                    $('a[href][title].right, a[href][title].titleright').qtip({
+                    content: {
+                    text: false // Use each elements title attribute
+                    },
+                    style:
+                    {
+                    name: 'light', // inherit from 'light'
+                    },
+                    width: { max: 350 },
+                    position:
+                    {
+                    corner:
+                    {
+                    target:'bottomRight',
+                    tooltip:'topRight'
+                    }
+                    },
+                    show:
+                    {
+                    delay: 300
+                    }
+                    });
+
+                    $('#tabs').tabs();
+
+                    // Hide items that display differently when javascript is enabled.
+                    $('.noscript').css('display', 'none');
+
+                    // Show items that aren't displayed unless javascript is enabled.
+                    $('.javascript').css('display', 'block');
+                    });
+
                     function toggle(obj)
                     {
-                        var elm = obj[0];
-                        if (elm.style.display == 'none')
-                            obj.show();
-                        else
-                            obj.hide();
+                    var elm = obj[0];
+                    if (elm.style.display == 'none')
+                    obj.show();
+                    else
+                    obj.hide();
                     }
                 </script>
             </head>
@@ -100,7 +100,9 @@
                         <div class="small centered">
                             <xsl:if test="i:validationResults/@validationPath">
                                 <div>The following calendar was validated:</div>
-                                <div class="big bold highlight"><xsl:value-of select="i:validationResults/@validationPath" /></div>
+                                <div class="big bold highlight">
+                                    <xsl:value-of select="i:validationResults/@validationPath" />
+                                </div>
                             </xsl:if>
                             This calendar was validated with the<br />
                             <a href="#"
@@ -114,11 +116,19 @@
                         </div>
                     </div>
 
-                  <p style="text-align:center">
-                    <a href="/">Do Another</a>
-                  </p>
+                    <xsl:if test="count(i:using)>0">
+                        <!-- Provide a link to perform another analysis -->
+                        <p style="text-align:center">
+                            <a href="/">
+                                <xsl:attribute name="href">
+                                    <xsl:value-of select="i:using[1]/@url"/>
+                                </xsl:attribute>
+                                <xsl:text xml:space="preserve">Do Another</xsl:text>
+                            </a>
+                        </p>
+                    </xsl:if>                    
 
-                  <xsl:if test="count(i:validationResults/i:validationResult[@result='none'])>0">
+                    <xsl:if test="count(i:validationResults/i:validationResult[@result='none'])>0">
                         <div class="warning subtitle bold">
                             Due to major errors, some validation was not performed.  Please correct the errors and validate again.
                         </div>
@@ -126,8 +136,10 @@
 
                     <div id="tabs">
                         <ul class="javascript tabs" style="display:none;">
+                            <!-- Build tab headers -->
                             <xsl:call-template name="tabheaders" />
                         </ul>
+                        <!-- Build tab contents -->
                         <xsl:call-template name="tabcontents" />
                     </div>
 
@@ -162,7 +174,7 @@
                                     <xsl:value-of select="@name" />
                                 </a>
                             </xsl:for-each>.
-                        </div>                        
+                        </div>
                     </xsl:if>
                 </div>
             </body>
@@ -172,7 +184,7 @@
     <xsl:template name="summary">
         <xsl:param name="header" select="false()" />
         <xsl:variable name="score" select="number(i:validationResults/@score)" />
-        
+
         <xsl:choose>
             <xsl:when test="$header = true()">
                 <li>
@@ -181,7 +193,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <div id="tab-1">
-                    <xsl:choose>                        
+                    <xsl:choose>
                         <xsl:when test="count(i:validationResults/i:calendarInfos/i:calendarInfo)>0">
                             <div class="border postspaced offBackground">
                                 <div class="small centered">
@@ -210,7 +222,7 @@
                                             <xsl:otherwise>
                                                 0
                                             </xsl:otherwise>
-                                        </xsl:choose>                                        
+                                        </xsl:choose>
                                     </span>
                                     out of <span class="good">100</span>
                                 </div>
@@ -240,7 +252,7 @@
                                         </xsl:choose>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
                             <table style="width:100%;">
                                 <xsl:if test="string-length(/i:results/i:calendarLines/@path)>0">
                                     <xsl:call-template name="tableRow">
@@ -262,7 +274,7 @@
                                     <tr>
                                         <td class="vtop even50">
                                             <table class="font tiny">
-                                                <caption>Calendar Info</caption>                                                
+                                                <caption>Calendar Info</caption>
                                                 <xsl:if test="string-length(@calendarVersion)>0">
                                                     <xsl:call-template name="tableRow">
                                                         <xsl:with-param name="c1">Calendar Version:</xsl:with-param>
@@ -321,10 +333,10 @@
                                 </div>
                             </div>
                         </xsl:otherwise>
-                    </xsl:choose>                    
+                    </xsl:choose>
                 </div>
             </xsl:otherwise>
-        </xsl:choose>        
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template name="tableRow">
@@ -370,13 +382,13 @@
         <xsl:apply-templates select="i:validationResults">
             <xsl:with-param name="header"
                             select="true()" />
-        </xsl:apply-templates>        
+        </xsl:apply-templates>
     </xsl:template>
 
     <xsl:template name="tabcontents">
         <xsl:call-template name="summary" />
         <xsl:apply-templates select="i:calendarLines" />
-        <xsl:apply-templates select="i:validationResults" />        
+        <xsl:apply-templates select="i:validationResults" />
     </xsl:template>
 
     <xsl:template name="errorList"
@@ -407,7 +419,7 @@
             <xsl:otherwise>
                 <div id="tab-{$type}">
                     <xsl:choose>
-                        <xsl:when test="count(i:validationResult/i:details/i:info[@type=$type])>0">                            
+                        <xsl:when test="count(i:validationResult/i:details/i:info[@type=$type])>0">
                             <div class="border postspaced offBackground">
                                 <table class="font">
                                     <tr>
@@ -464,7 +476,7 @@
         <xsl:if test="count(i:validationResult[@result='fail'])>0">
             <xsl:call-template name="errorList">
                 <xsl:with-param name="header"
-                                select="$header" />                
+                                select="$header" />
                 <xsl:with-param name="type">warning</xsl:with-param>
                 <xsl:with-param name="typeCaps">Warning</xsl:with-param>
                 <xsl:with-param name="info">
@@ -474,7 +486,7 @@
 
             <xsl:call-template name="errorList">
                 <xsl:with-param name="header"
-                                select="$header" />                
+                                select="$header" />
                 <xsl:with-param name="type">error</xsl:with-param>
                 <xsl:with-param name="typeCaps">Error</xsl:with-param>
                 <xsl:with-param name="info">
@@ -501,7 +513,7 @@
         <xsl:param name="othersLikeThisCount" />
         <xsl:param name="key" />
         <xsl:param name="type" select="@type" />
-        
+
         <tr>
             <td class="centered vtop">
                 <a href="#line{@line}"
@@ -529,12 +541,14 @@
                             <a class="highlight"
                                href="#"
                                onclick="$('#{$name}-more-errors').slideToggle('slow'); return false;">
-                                There 
+                                There
                                 <xsl:choose>
                                     <xsl:when test="$othersLikeThisCount=1">is</xsl:when>
                                     <xsl:otherwise>are</xsl:otherwise>
                                 </xsl:choose><xsl:text xml:space="preserve"> </xsl:text>
-                                <span class="{@type}"><xsl:value-of select="$othersLikeThisCount" /> </span>
+                                <span class="{@type}">
+                                    <xsl:value-of select="$othersLikeThisCount" />
+                                </span>
                                 similar <xsl:value-of select="@type" /><xsl:if test="$othersLikeThisCount!=1">s</xsl:if>.
                             </a>
                         </div>
@@ -542,7 +556,7 @@
 
                     <table
                         id="{$name}-more-errors"
-                        class="noscript errorList mainBackground font small"                        
+                        class="noscript errorList mainBackground font small"
                         cellspacing="0">
                         <tr>
                             <th>Line</th>
@@ -554,7 +568,7 @@
                         <!-- Show similar errors, sorted by line number -->
                         <xsl:for-each select="//i:info[generate-id()!=$key and @name=$name and @type=$type]">
                             <xsl:sort select="@line" data-type="number"/>
-                            <xsl:apply-templates select="." />                                
+                            <xsl:apply-templates select="." />
                         </xsl:for-each>
                     </table>
                 </xsl:if>
@@ -624,7 +638,7 @@
                    class="anchor">
                     <xsl:value-of select="@n"/>
                 </a>
-            </td>            
+            </td>
             <td class="vcentered vtop" valign="top">
                 <xsl:if test="//i:info[@type='warning' and @line=$lineNumber]">
                     <xsl:attribute name="class">warning</xsl:attribute>
@@ -638,7 +652,7 @@
                 <pre>
                     <xsl:value-of select="." />
                 </pre>
-            </td>            
+            </td>
         </tr>
     </xsl:template>
 
@@ -661,7 +675,7 @@
             </xsl:attribute>
             <img
                 src="images/info.png"
-                border="0" 
+                border="0"
                 class="resolution" />
         </a>
     </xsl:template>

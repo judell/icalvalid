@@ -212,7 +212,7 @@ namespace DDay.iCal.Validator
                     // Start a new process for the filename in question.
                     string filename = GetOutputFilename(serializer);
                     Process p = new Process();
-                    p.StartInfo = new ProcessStartInfo(filename);
+                    p.StartInfo = new ProcessStartInfo(filename);                    
                     p.Start();
                 }
             }

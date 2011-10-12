@@ -81,6 +81,7 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="chunks\chunks.css" />
     <Content Include="css\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="css\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="css\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -160,8 +161,10 @@
     <Content Include="js\jquery.mailto.js" />
     <Content Include="js\jquery.MultiFile.pack.js" />
     <Content Include="js\jquery.qtip-1.0.0-rc3.min.js" />
+    <Content Include="chunks\privacy.html" />
     <Content Include="results.css" />
     <Content Include="results.xslt" />
+    <Content Include="chunks\unparseable.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

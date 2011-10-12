@@ -15,6 +15,7 @@
     <xsl:template match="/i:results">
         <html>
             <head>
+              <meta http-equiv="X-UA-Compatible" content="IE=9" />              
                 <link rel="stylesheet"
                       type="text/css"
                       href="results.css" />
@@ -117,17 +118,30 @@
                         </div>
                     </div>
 
-                    <xsl:if test="count(i:using)>0">
-                        <!-- Provide a link to perform another analysis -->
-                        <p style="text-align:center">
-                            <a href="/">
-                                <xsl:attribute name="href">
-                                    <xsl:value-of select="i:using[1]/@url"/>
-                                </xsl:attribute>
-                                <xsl:text xml:space="preserve">Do Another</xsl:text>
-                            </a>
-                        </p>
-                    </xsl:if>                    
+                  <p style="text-align:center">
+                    <xsl:if test="/i:results/@permalink != ''">
+                      <xsl:text>[ </xsl:text>
+                      <span>
+                        <a title="permalink to this validation">
+                          <xsl:attribute name="href">
+                            <xsl:value-of select="/i:results/@permalink"/>
+                          </xsl:attribute>
+                          permalink
+                        </a>
+                        <xsl:text> ]</xsl:text>
+                      </span>
+                    </xsl:if>
+                    <span>
+                      <xsl:text> </xsl:text>
+                    </span>
+                    <span>
+                      <xsl:text>[ </xsl:text>
+                      <a title="try another validation" href="/">
+                        restart
+                      </a>
+                      <xsl:text> ]</xsl:text>
+                    </span>
+                  </p>                  
 
                     <xsl:if test="count(i:validationResults/i:validationResult[@result='none'])>0">
                         <div class="warning subtitle bold">

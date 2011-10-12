@@ -12,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDay.iCal.Validator.Profiling", "DDay.iCal.Validator.Profiling\DDay.iCal.Validator.Profiling.csproj", "{D7941350-E150-40A2-BD4F-A394EC636D86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8CDDCEB9-50B0-474C-9C96-8A6D999E4E32}"
+	ProjectSection(SolutionItems) = preProject
+		results.css = results.css
+		results.xslt = results.xslt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -28,6 +28,6 @@ namespace DDay.iCal.Validator
         /// </summary>
         /// <param name="stream">The stream to serialize results to.</param>
         /// <param name="encoding">The encoding to use during serialization.</param>
-        void Serialize(Stream stream, Encoding encoding);
+        void Serialize(Stream stream, Encoding encoding, string permalink);
     }
 }

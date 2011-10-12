@@ -68,7 +68,7 @@ namespace DDay.iCal.Validator.Serialization
         virtual public ITestResult[] TestResults { get; set; }
         virtual public IValidationResultCollection ValidationResults { get; set; }
 
-        virtual public void Serialize(Stream stream, Encoding encoding)
+        virtual public void Serialize(Stream stream, Encoding encoding, string permalink)
         {
             XmlWriter xw = null;
             try
@@ -99,6 +99,7 @@ namespace DDay.iCal.Validator.Serialization
                     XmlElement results = doc.CreateElement("results", "http://icalvalid.wikidot.com/validation");
                     results.SetAttribute("language", ResourceManager.CurrentLanguageIdentifier);
                     results.SetAttribute("datetime", now.ToString("yyyy-MM-dd") + "T" + now.ToString("hh:mm:ss"));
+					results.SetAttribute("permalink", permalink);
 
                     // Indicate what version of DDay.iCal we're using...
                     XmlElement @using = doc.CreateElement("using", "http://icalvalid.wikidot.com/validation");

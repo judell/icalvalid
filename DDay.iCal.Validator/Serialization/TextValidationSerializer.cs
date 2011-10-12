@@ -61,7 +61,7 @@ namespace DDay.iCal.Validator.Serialization
         virtual public ITestResult[] TestResults { get; set; }
         virtual public IValidationResultCollection ValidationResults { get; set; }
 
-        virtual public void Serialize(Stream stream, Encoding encoding)
+        virtual public void Serialize(Stream stream, Encoding encoding, string permalink)
         {
             using (StreamWriter sw = new StreamWriter(stream, encoding))
             {

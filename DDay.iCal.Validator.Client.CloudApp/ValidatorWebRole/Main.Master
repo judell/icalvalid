@@ -92,7 +92,7 @@
       $('#progress').html(progress_bar);
 
       var check_completion_url = "/?check_completion=" + id;
-      var redirect_url = "/?cached_id=" + id;
+      var redirect_url = "/?id=" + id;
 
       var success = false;
 

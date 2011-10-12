@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" ValidateRequest="false" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true"
+﻿ <%@ Page Title="" ValidateRequest="false" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true"
     CodeBehind="Default.aspx.cs" Inherits="ValidatorWebRole._Default" %>
 
 <asp:Content ID="Title" ContentPlaceHolderID="Title" runat="server">
@@ -110,12 +110,15 @@
     </div>
     <table style="width:100%;" class="prespaced">
         <tr>            
-            <td class="even50 bold centered tiny">
+            <td class="even33 bold centered tiny">
                 Copyright © 2010 Douglas Day
             </td>
-            <td class="even50 centered tiny">
+            <td class="even33 centered tiny">
                 <div>For feedback, bug reports, or other comments,</div>
-                <div>please e-mail <a href="doug(at)ddaysoftware.com" class="email">doug(at)ddaysoftware.com</a>.</div>
+                <div>please e-mail <a href="mailto:doug(at)ddaysoftware.com" class="email">doug(at)ddaysoftware.com</a>.</div>
+            </td>
+            <td class="even33 centered tiny">
+            <a href="http://icalvalid.blob.core.windows.net/chunks/privacy.html">Privacy policy.</a>
             </td>
         </tr>
     </table>

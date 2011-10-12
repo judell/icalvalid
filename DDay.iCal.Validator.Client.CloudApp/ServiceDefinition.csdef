@@ -10,9 +10,11 @@
       </Site>
     </Sites>
     -->
+    <!--
     <ConfigurationSettings>
       <Setting name="DataConnectionString" />
     </ConfigurationSettings>
+    -->
     <LocalResources></LocalResources>
     <Endpoints>
       <InputEndpoint name="HttpIn" protocol="http" port="80" />

@@ -4,10 +4,11 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:fn="http://www.w3.org/2005/02/xpath-functions"
     xmlns:i="http://icalvalid.wikidot.com/validation">
-    <xsl:output
-        indent="yes"
-        doctype-public="-//W3C//DTD HTML 4.01//EN"
-        doctype-system="http://www.w3.org/TR/html4/strict.dtd"/>
+  <xsl:output
+      method="html"
+      doctype-system="about:legacy-compat"
+      encoding="UTF-8"
+      indent="yes" />
 
     <xsl:key name="errorKey" match="//i:info" use="@name"/>
 

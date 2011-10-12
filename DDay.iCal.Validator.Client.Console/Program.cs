@@ -447,7 +447,7 @@ namespace DDay.iCal.Validator
 
                 try
                 {
-                    serializer.Serialize(stream, encoding);
+                    serializer.Serialize(stream, encoding, permalink:"");
                 }
                 finally
                 {
@@ -575,7 +575,7 @@ namespace DDay.iCal.Validator
 
                         try
                         {
-                            serializer.Serialize(stream, encoding);
+							serializer.Serialize(stream, encoding, permalink: "");
                         }
                         finally
                         {

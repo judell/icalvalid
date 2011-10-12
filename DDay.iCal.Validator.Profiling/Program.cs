@@ -197,7 +197,7 @@ namespace DDay.iCal.Validator.Profiling
 
                     try
                     {
-                        serializer.Serialize(stream, encoding);
+						serializer.Serialize(stream, encoding, permalink: "");
                     }
                     finally
                     {

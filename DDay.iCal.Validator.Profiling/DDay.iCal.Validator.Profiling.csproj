@@ -16,6 +16,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,7 +29,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -74,8 +74,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Calendars\Test1.ics">
@@ -111,6 +111,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -120,16 +123,12 @@
   </Target>
   -->
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)subwcrev.exe" "$(ProjectDir)." "$(ProjectDir)Properties\AssemblyInfo.cs.template" "$(ProjectDir)Properties\AssemblyInfo.cs"
-xcopy /S /Y /H /R /I "$(SolutionDir)css" "$(TargetDir)css"
+    <PreBuildEvent>xcopy /S /Y /H /R /I "$(SolutionDir)css" "$(TargetDir)css"
 xcopy /S /Y /H /R /I "$(SolutionDir)js" "$(TargetDir)js"
 xcopy /S /Y /H /R /I "$(SolutionDir)images" "$(TargetDir)images"
 xcopy /S /Y /H /R /I "$(SolutionDir)icalvalidSchema" "$(TargetDir)icalvalidSchema"
 xcopy /Y /H /R "$(SolutionDir)*.css" "$(TargetDir)"
 xcopy /Y /H /R "$(SolutionDir)*.xslt" "$(TargetDir)"
-rmdir /Q /S "$(TargetDir)css\.svn"
-rmdir /Q /S "$(TargetDir)js\.svn"
-rmdir /Q /S "$(TargetDir)images\.svn"
-rmdir /Q /S "$(TargetDir)icalvalidSchema\.svn"</PreBuildEvent>
+</PreBuildEvent>
   </PropertyGroup>
 </Project>

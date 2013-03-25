@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rulesets
+    xmlns="http://icalvalid.wikidot.com/validation"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://icalvalid.wikidot.com/validation schema.xsd">
+    <!-- 
+        Defines the available rulesets for iCalendar validation.        
+    -->
+    <ruleset
+        name="Strict_2_0"
+        nameString="ruleset_Strict_2_0"
+        descriptionString="ruleset_Strict_2_0_Description">
+        
+        <!-- General Rules -->
+        
+        <!-- 
+            FIXME: empty lines are more or less compatible with most applications. 
+            Maybe we can have a Compability_Strict and Compatibility_Loose ruleset
+            that keep/omit some rules, respectively.
+        -->
+        <rule name="emptyLine" file="rules/RFC5545/Parsing/emptyLine.xml" />
+        <rule name="crlfPairs" file="rules/RFC5545/Parsing/crlfPairs.xml" />
+        <rule name="lineFolding" file="rules/RFC5545/Parsing/lineFolding.xml" />
+
+        <!-- Calendar Properties -->
+        <rule name="version" file="rules/RFC5545/Components/VCALENDAR/version.xml" />
+        <rule name="prodID" file="rules/RFC5545/Components/VCALENDAR/prodID.xml" />
+        <rule name="calScale" file="rules/RFC5545/Components/VCALENDAR/calScale.xml" />
+        <rule name="method" file="rules/RFC5545/Components/VCALENDAR/method.xml" />
+
+        <!-- Components -->
+        <rule name="component" file="rules/RFC5545/Components/component.xml" />
+        
+        <!-- DataTypes -->
+        <rule name="dateTimeValues" file="rules/RFC5545/DataTypes/dateTimeValues.xml" />
+
+        <!-- Parameters -->
+        <rule name="unknownValueTypeParameter" file="rules/RFC5545/Parameters/unknownValueTypeParameter.xml"/>
+        
+        <!-- Events -->
+        <rule name="eventAttachProperty" file="rules/RFC5545/Components/VEVENT/eventAttachProperty.xml" />
+        <rule name="eventAttendeeProperty" file="rules/RFC5545/Components/VEVENT/eventAttendeeProperty.xml" />
+        <rule name="eventCategoriesProperty" file="rules/RFC5545/Components/VEVENT/eventCategoriesProperty.xml" />
+        <rule name="eventClassProperty" file="rules/RFC5545/Components/VEVENT/eventClassProperty.xml" />
+        <rule name="eventCommentProperty" file="rules/RFC5545/Components/VEVENT/eventCommentProperty.xml" />
+        <rule name="eventContactProperty" file="rules/RFC5545/Components/VEVENT/eventContactProperty.xml" />
+        <rule name="eventCreatedProperty" file="rules/RFC5545/Components/VEVENT/eventCreatedProperty.xml" />
+        <rule name="eventDescriptionProperty" file="rules/RFC5545/Components/VEVENT/eventDescriptionProperty.xml" />
+        <rule name="eventDTEndDurationConflict" file="rules/RFC5545/Components/VEVENT/eventDTEndDurationConflict.xml" />
+        <rule name="eventDTEndProperty" file="rules/RFC5545/Components/VEVENT/eventDTEndProperty.xml" />
+        <rule name="eventDTStartProperty" file="rules/RFC5545/Components/VEVENT/eventDTStartProperty.xml" />
+        <rule name="eventDTStampProperty" file="rules/RFC5545/Components/VEVENT/eventDTStampProperty.xml" />
+        <rule name="eventDurationProperty" file="rules/RFC5545/Components/VEVENT/eventDurationProperty.xml" />
+        <rule name="eventExDateProperty" file="rules/RFC5545/Components/VEVENT/eventExDateProperty.xml" />
+        <rule name="eventExRuleProperty" file="rules/RFC5545/Components/VEVENT/eventExRuleProperty.xml" />
+        <rule name="eventGeoProperty" file="rules/RFC5545/Components/VEVENT/eventGeoProperty.xml" />
+        <rule name="eventLastModProperty" file="rules/RFC5545/Components/VEVENT/eventLastModProperty.xml" />
+        <rule name="eventLocationProperty" file="rules/RFC5545/Components/VEVENT/eventLocationProperty.xml" />
+        <rule name="eventOrganizerProperty" file="rules/RFC5545/Components/VEVENT/eventOrganizerProperty.xml" />
+        <rule name="eventPriorityProperty" file="rules/RFC5545/Components/VEVENT/eventPriorityProperty.xml" />
+        <rule name="eventRDateProperty" file="rules/RFC5545/Components/VEVENT/eventRDateProperty.xml" />
+        <rule name="eventRecurIDProperty" file="rules/RFC5545/Components/VEVENT/eventRecurIDProperty.xml" />
+        <rule name="eventRelatedProperty" file="rules/RFC5545/Components/VEVENT/eventRelatedProperty.xml" />
+        <rule name="eventResourcesProperty" file="rules/RFC5545/Components/VEVENT/eventResourcesProperty.xml" />
+        <rule name="eventRStatusProperty" file="rules/RFC5545/Components/VEVENT/eventRStatusProperty.xml" />
+        <rule name="eventRRuleProperty" file="rules/RFC5545/Components/VEVENT/eventRRuleProperty.xml" />
+        <rule name="eventSeqProperty" file="rules/RFC5545/Components/VEVENT/eventSeqProperty.xml" />
+        <rule name="eventStatusProperty" file="rules/RFC5545/Components/VEVENT/eventStatusProperty.xml" />
+        <rule name="eventSummaryProperty" file="rules/RFC5545/Components/VEVENT/eventSummaryProperty.xml" />
+        <rule name="eventTranspProperty" file="rules/RFC5545/Components/VEVENT/eventTranspProperty.xml" />
+        <rule name="eventUidProperty" file="rules/RFC5545/Components/VEVENT/eventUidProperty.xml" />
+        <rule name="eventUrlProperty" file="rules/RFC5545/Components/VEVENT/eventUrlProperty.xml" />
+        <rule name="eventXProperty" file="rules/RFC5545/Components/VEVENT/eventXProperty.xml" />
+    </ruleset>
+
+    <ruleset
+        name="Compatibility_2_0"
+        basedOn="Strict_2_0"
+        nameString="ruleset_Compatibility_2_0"
+        descriptionString="ruleset_Compatibility_2_0_Description">
+        
+        <!-- Data Types -->        
+        <rule name="inlineBinaryContent" file="rules/RFC5545/DataTypes/inlineBinaryContent.xml" />
+    </ruleset>    
+</rulesets>

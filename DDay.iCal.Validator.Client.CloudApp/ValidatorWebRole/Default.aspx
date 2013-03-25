@@ -123,4 +123,6 @@
         </tr>
     </table>
 
+    <!--  ValidatorVersion  <%= ValidatorVersion %>, WebRoleVersion <%= ValidatorWebRoleVersion %> -->
+
 </asp:Content>

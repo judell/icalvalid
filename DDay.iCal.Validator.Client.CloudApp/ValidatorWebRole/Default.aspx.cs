@@ -23,13 +23,15 @@ namespace ValidatorWebRole
 	public partial class _Default : System.Web.UI.Page
 	{
 		public string DDayICalVersion { get; protected set; }
+        public string ValidatorVersion { get; protected set; }
+        public string ValidatorWebRoleVersion { get; protected set; }
 		public IXmlDocumentProvider DocumentProvider { get; protected set; }
 		public IValidationRuleset SelectedRuleset { get; protected set; }
 		public IResourceManager ResourceManager { get; protected set; }
 		public Debug Debug { get; protected set; }
 		public string CalendarPath { get; set; }
 
-		Encoding encoding;
+        Encoding encoding = UTF8Encoding.UTF8;
 
 		private delegate byte[] AsyncValidator(long byte_count, TextReader tr, string id);
 		private string progress_fmt = "/?mode={0}&uri={1}&id={2}&progress={3}";
@@ -41,85 +43,104 @@ namespace ValidatorWebRole
 		protected void Page_Load(object sender, EventArgs e)
 		{
 
-			Server.ScriptTimeout = 120;
+                Utils.LogMsg("request", Request.RawUrl, String.Format("{0} {1}", Request.QueryString, Request.UrlReferrer));
+                Server.ScriptTimeout = 120;
 
-			Assembly ddayical = Assembly.Load("DDay.iCal");
-			DDayICalVersion = ddayical.GetName().Version.ToString();
+                Assembly ddayical = Assembly.Load("DDay.iCal");
+                DDayICalVersion = ddayical.GetName().Version.ToString();
 
-			encoding = Response.Output.Encoding;
+                Assembly validator = Assembly.Load("DDay.iCal.Validator");
+                ValidatorVersion = validator.GetName().Version.ToString();
 
-			var setup_result = Setup();
-			if (setup_result.Length > 0)
-			{
-				SendPage(setup_result, "text/html");
-				return;
-			}
+                Assembly webrole = Assembly.Load("ValidatorWebRole");
+                ValidatorWebRoleVersion = webrole.GetName().Version.ToString();
 
-			if (Request["check_completion"] != null)
-			{
-				var blob = Utils.MakeResultsBlob(Request["check_completion"]);
-				if (blob.Exists())
-					SendPage(encoding.GetBytes("YES"), "text/plain");
-				else
-					SendPage(encoding.GetBytes("NO"), "text/plain");
-			}
+                var setup_result = Setup();
+                if (setup_result.Length > 0)
+                {
+                    SendPage(setup_result, "text/html");
+                    return;
+                }
 
-			if (Request["id"] != null)
-			{
-				var blob = Utils.MakeResultsBlob(Request["id"]);
-				if (blob.Exists())
-				{
-					var bytes = blob.DownloadByteArray();
-					SendResult(bytes);
-				}
-			}
+                if (Request["check_completion"] != null)
+                {
+                    var blob = Utils.MakeResultsBlob(Request["check_completion"]);
+                    if (blob.Exists())
+                        SendPage(encoding.GetBytes("YES"), "text/plain");
+                    else
+                        SendPage(encoding.GetBytes("NO"), "text/plain");
+                    return;
+                }
 
-			if (Request["mode"] != null && Request["id"] != null && Request["progress"] != null) // in progress, invoke js progress bar / redirector
-			{
-				this.btnValidateUrl.Enabled = false;
-				this.btnUpload.Enabled = false;
-				this.btnValidateSnippet.Enabled = false;
-				this.fileUpload.Enabled = false;
+                if (Request["id"] != null)
+                {
+                    var blob = Utils.MakeResultsBlob(Request["id"]);
+                    if (blob.Exists())
+                    {
+                        var bytes = blob.DownloadByteArray();
+                        SendResult(bytes);
+                    }
+                }
 
-				switch (Request["mode"])
-				{
-					case "url":
-						if (Request["uri"] != null)
-							this.tbUrl.Text = Request["uri"];
-						break;
+                if (Request["mode"] != null && Request["id"] != null && Request["progress"] != null) // in progress, invoke js progress bar / redirector
+                {
+                    this.btnValidateUrl.Enabled = false;
+                    this.btnUpload.Enabled = false;
+                    this.btnValidateSnippet.Enabled = false;
+                    this.fileUpload.Enabled = false;
 
-					case "file":
-						break;
+                    switch (Request["mode"])
+                    {
+                        case "url":
+                            if (Request["uri"] != null)
+                                this.tbUrl.Text = Request["uri"];
+                            break;
 
-					case "snippet":
-						break;
+                        case "file":
+                            break;
 
-					default:
-						break;
-				}
+                        case "snippet":
+                            break;
 
-				ClientScriptManager script = Page.ClientScript;
-				string id = Request["id"];
-				var script_text = "<script type='text/javascript'>RunProgress('" + id + "');</script>";
-				script.RegisterClientScriptBlock(this.GetType(), "Progress", script_text);
+                        default:
+                            break;
+                    }
 
-				return;
-			}
+                    ClientScriptManager script = Page.ClientScript;
+                    string id = Request["id"];
+                    var script_text = "<script type='text/javascript'>RunProgress('" + id + "');</script>";
+                    script.RegisterClientScriptBlock(this.GetType(), "Progress", script_text);
 
-			// Validate the URI if it was passed via query string.
-			if (Request["uri"] != null)
-			{
-				var validation_result = ValidateUri(Request["uri"]);
-				SendPage(validation_result, "text/xml");
-			}
+                    return;
+                    
+                }
+
+                // Validate the URI if it was passed via query string.
+                if (Request["uri"] != null)
+                {
+                    var validation_result = ValidateUri(Request["uri"]);
+                    SendPage(validation_result, "text/xml");
+                }
 		}
 
 		private void SendPage(byte[] bytes, string content_type)
 		{
-			Response.ContentType = content_type;
-			var page = Response.Output.Encoding.GetString(bytes);
-			Response.Write(page);
-			Response.End();
+            try
+            {
+                Response.ContentType = content_type;
+                var page = Response.Output.Encoding.GetString(bytes);
+                Response.Write(page);
+                //this.Context.ApplicationInstance.CompleteRequest();
+                //Response.End();
+            }
+            catch (Exception e)
+            {
+                Utils.LogMsg("exception", "SendPage", e.Message);
+            }
+            finally
+            {
+                Response.End();
+            }
 		}
 
 		private void RedirectToProgressPage(ValidationMode mode, string uri, string id, string progress)
@@ -161,7 +182,7 @@ namespace ValidatorWebRole
 			}
 			catch (ValidationRuleLoadException e)
 			{
-				Utils.StoreExceptionBlob("Setup: " + e.Message + e.StackTrace);
+                Utils.LogMsg("exception", e.Message, e.StackTrace);
 				bytes = Response.Output.Encoding.GetBytes(e.Message);
 			}
 
@@ -170,12 +191,14 @@ namespace ValidatorWebRole
 
 		protected byte[] ValidateUri(string uriString)
 		{
+            Utils.LogMsg("info", "ValidateUri", uriString);
 			Uri uri;
 			if (Uri.TryCreate(uriString, UriKind.Absolute, out uri) == false)
 			{
-				var exception = new Exception("Malformed URL");
-				Utils.StoreExceptionBlob("ValidateUri: " + uriString);
-				return ExceptionMessage(exception);
+                var msg = "malformed URL: " + uriString;
+				var exception = new Exception(msg);
+                Utils.LogMsg("exception", "ValidateURI", msg);
+		        return ExceptionMessage(exception);
 			}
 
 			string
@@ -204,23 +227,17 @@ namespace ValidatorWebRole
 			if (username != null && password != null)
 				client.Credentials = new System.Net.NetworkCredential(username, password);
 
-			try
-			{
-				string iCalText = client.DownloadString(uri);
-				CalendarPath = uriString;
-				return ValidateText(iCalText, ValidationMode.url, save_results: true, async: true);
-			}
-			catch (Exception e)
-			{
-				Utils.StoreExceptionBlob("ValidateUri: " + e.Message + e.StackTrace);
-				return ExceptionMessage(e);
-			}
+			string iCalText = client.DownloadString(uri);
+			CalendarPath = uriString;
+			return ValidateText(iCalText, ValidationMode.url, save_results: true, async: true);
 		}
 
 		private byte[] ValidateText(string text, ValidationMode mode, bool save_results, bool async)
 		{
+            Utils.LogMsg("info", "ValidateText", null);
 			var sr = new StringReader(text);
 			var id = MakeId(save_results);
+            Utils.LogMsg("info", "ValidateText", id);
 			var count = Encoding.UTF8.GetByteCount(text);
 			byte[] bytes;
 			bytes = ValidateHelper(mode, async, sr, id, count);
@@ -230,6 +247,7 @@ namespace ValidatorWebRole
 		private byte[] ValidateStream(Stream s, ValidationMode mode, bool save_results, bool async)
 		{
 			string id = MakeId(save_results);
+            Utils.LogMsg("info", "ValidateStream", id);
 			var sr = new StreamReader(s);
 			var count = s.Length;
 			byte[] bytes = ValidateHelper(mode, async, sr, id, count);
@@ -238,6 +256,7 @@ namespace ValidatorWebRole
 
 		private byte[] ValidateHelper(ValidationMode mode, bool async, TextReader tr, string id, long count)
 		{
+            // async = false;  
 			byte[] bytes;
 			if (async)
 				bytes = AsyncValidate(count, tr, id, mode);
@@ -246,6 +265,7 @@ namespace ValidatorWebRole
 			return bytes;
 		}
 
+        // ids prefixed with _ will be expunged by the cleanup thread
 		private static string MakeId(bool save_results)
 		{
 			string id = DateTime.UtcNow.Ticks.ToString();
@@ -330,6 +350,7 @@ namespace ValidatorWebRole
 
 		protected byte[] Validate(long byteCount, TextReader tr, string id)
 		{
+            Utils.LogMsg("info", "Validate", id);
 			byte[] bytes = new byte[0];
 
 			try
@@ -348,7 +369,7 @@ namespace ValidatorWebRole
 					}
 					catch (Exception e)
 					{
-						Utils.StoreExceptionBlob("Validate: " + e.Message + e.StackTrace);
+                        Utils.LogMsg("exception", "Validate", e.Message + e.StackTrace);
 						bytes = ExceptionMessage(e);
 						return bytes;
 					}
@@ -382,7 +403,7 @@ namespace ValidatorWebRole
 						catch (Exception e)
 						{
 							bytes = ExceptionMessage(e);
-							Utils.StoreExceptionBlob("Validate: " + e.Message + e.StackTrace);
+                            Utils.LogMsg("exception", "Validate", e.Message + e.StackTrace);
 						}
 						finally
 						{
@@ -395,13 +416,15 @@ namespace ValidatorWebRole
 			catch (Exception e)
 			{
 				bytes = ExceptionMessage(e);
-				Utils.StoreExceptionBlob("Validate:" + e.Message + e.StackTrace);
+                Utils.LogMsg("exception", "Validate", e.Message + e.StackTrace);
 			}
 
 			finally
 			{
 				var results_blob = Utils.MakeResultsBlob(id);
-				results_blob.UploadByteArray(bytes);
+                results_blob.UploadByteArray(bytes);
+                results_blob.Properties.ContentType = "text/xml";
+                results_blob.SetProperties();
 			}
 
 			return bytes;
@@ -424,37 +447,56 @@ namespace ValidatorWebRole
 
 		protected void btnUpload_Click(object sender, EventArgs e)
 		{
-			try
-			{
+            Utils.LogMsg("info", "Validate uploaded file", null);
 				// Get the HttpFileCollection
-				HttpFileCollection hfc = Request.Files;
-				if (hfc.Count > 0)
-				{
-					HttpPostedFile hpf = hfc[0];
-					CalendarPath = hpf.FileName;
-
-					var bytes = ValidateStream(hpf.InputStream, ValidationMode.file, save_results: false, async: true);
-					SendResult(bytes);
-				}
-			}
-			catch (Exception ex)
+			HttpFileCollection hfc = Request.Files;
+			if (hfc.Count > 0)
 			{
-				Utils.StoreExceptionBlob("btnUpload_Click: " + ex.Message + ex.StackTrace);
-				throw;
+				HttpPostedFile hpf = hfc[0];
+				CalendarPath = hpf.FileName;
+				var bytes = ValidateStream(hpf.InputStream, ValidationMode.file, save_results: false, async: true);
+    			SendResult(bytes);
 			}
 		}
 
 		private void SendResult(byte[] bytes)
 		{
-			var str = encoding.GetString(bytes);
-			if (str.StartsWith("<html>"))
+            string str = String.Empty;
+
+            bool is_html = false;
+            bool is_xml = false;
+
+            try
+            {
+               // Utils.LogMsg("info", "bytes len", bytes.Length.ToString());
+                if (bytes.Length > 10)
+                {
+                    var hex = BitConverter.ToString(bytes.Take(10).ToArray());
+                    Utils.LogMsg("info", hex, null);
+                }
+                str = Encoding.UTF8.GetString(bytes);
+                var bom = Encoding.UTF8.GetString(Encoding.UTF8.GetPreamble());
+                //Utils.LogMsg("info", "str orig len", str.Length.ToString());
+                str = str.Remove(0, bom.Length);
+                //Utils.LogMsg("info", "str new len", str.Length.ToString());
+                is_html = str.StartsWith("<html>");
+                is_xml = str.StartsWith("<?xml");
+                Utils.LogMsg("info", "html? " + is_html.ToString() + " xml: " + is_xml.ToString(), null);
+            }
+            catch (Exception e)
+            {
+                Utils.LogMsg("exception", "SendResult", e.Message + e.StackTrace);
+                SendPage(ExceptionMessage(e), "text/plain");
+            }
+
+			if (is_html)
 				SendPage(bytes, "text/html");
 
-			else if (str.StartsWith("<?xml"))
-				SendPage(bytes, "text/xml");
+            else if ( is_xml )
+                SendPage(bytes, "text/xml");
 
-			else
-				SendPage(bytes, "text/plain");
+            else
+                SendPage(bytes, "text/plain");
 		}
 
 		protected void btnValidateUrl_Click(object sender, EventArgs e)

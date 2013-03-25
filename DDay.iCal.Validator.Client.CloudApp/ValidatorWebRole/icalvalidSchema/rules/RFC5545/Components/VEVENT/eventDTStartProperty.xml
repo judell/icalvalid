@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rule
+    name="eventDTStartProperty"
+    xmlns="http://icalvalid.wikidot.com/validation"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://icalvalid.wikidot.com/validation ../../../schema.xsd">
+    <!--
+    Section 4.6.1:
+    ; the following are optional,
+    ; but MUST NOT occur more than once
+
+    class / created / description / dtstart / geo /
+    last-mod / location / organizer / priority /
+    dtstamp / seq / status / summary / transp /
+    uid / url / recurid /
+    -->    
+    <pass>
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART:19970714T170000Z
+DTEND:19970715T035959Z
+END:VEVENT
+END:VCALENDAR]]>
+    </pass>
+
+    <pass>
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART:19970714T170000Z
+DURATION:PT1H
+END:VEVENT
+END:VCALENDAR]]>
+    </pass>
+
+    <!-- 
+    Section 3.8.2.4 allows DTSTART to be optional when the METHOD property is
+    not present on the iCalendar.
+    -->
+    <pass>
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+METHOD:REQUEST
+BEGIN:VEVENT
+UID:someuid@sample.com
+DTEND:19970715T070000Z
+END:VEVENT
+END:VCALENDAR]]>
+    </pass>
+
+    <fail
+        error="propertyOnlyOnceError">
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART:19970714T170000Z
+DTSTART:19970714T170000Z
+DTEND:19970715T035959Z
+END:VEVENT
+END:VCALENDAR]]>
+    </fail>
+
+    <fail
+        error="dateOutOfRangeError">
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART:00000101T230000Z
+DTEND:19970715T035959Z
+END:VEVENT
+END:VCALENDAR]]>
+    </fail>
+
+    <!-- Section 3.8.2.4 requires the DTSTART to be present unless the METHOD property is present on the calendar. -->
+    <fail
+        error="propertyRequiredError">
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTEND:19970715T035959Z
+END:VEVENT
+END:VCALENDAR]]>
+    </fail>
+</rule>

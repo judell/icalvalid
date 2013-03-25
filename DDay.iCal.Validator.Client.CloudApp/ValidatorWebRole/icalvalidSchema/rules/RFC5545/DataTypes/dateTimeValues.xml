@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rule
+    xmlns="http://icalvalid.wikidot.com/validation"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://icalvalid.wikidot.com/validation ../../schema.xsd"
+    name="dateTimeValues">
+    <pass>
+        <!-- See RFC 2445 section 4.4 (page 49) -->
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART:19970714T170000Z
+DTEND:19970715T035959Z
+SUMMARY:Bastille Day Party
+END:VEVENT
+END:VCALENDAR
+]]>
+    </pass>
+
+    <fail
+        error="missingValueDateError">
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART:19940712
+DTEND:19970715T035959Z
+SUMMARY:Bastille Day Party
+END:VEVENT
+END:VCALENDAR
+]]>
+    </fail>
+
+    <fail
+        error="valueDateIncorrectlyUsedError">
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:19970714T170000Z
+DTEND:19970715T180000Z
+SUMMARY:Bastille Day Party
+END:VEVENT
+END:VCALENDAR
+]]>
+    </fail>
+
+    <fail
+        error="invalidDateFormatError">
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:1234
+DTEND:19970715T180000Z
+SUMMARY:Bastille Day Party
+END:VEVENT
+END:VCALENDAR
+]]>
+    </fail>
+
+    <fail
+        error="invalidDateTimeFormatError">
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART:1234
+DTEND:19970715T180000Z
+SUMMARY:Bastille Day Party
+END:VEVENT
+END:VCALENDAR
+]]>
+    </fail>
+
+    <fail
+        error="timeZoneNotFoundError">
+        <![CDATA[BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:19970714T190000Z
+DTEND:19970715T180000Z
+SUMMARY:Bastille Day Party
+END:VEVENT
+END:VCALENDAR
+]]>
+    </fail>
+</rule>
